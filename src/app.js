@@ -1,6 +1,6 @@
 const express = require("express")
 const authMiddleware = require("./middleware/authentication")
-const poolRequest = require("./queues/poolRequest.queue")
+const {poolRequest} = require("./processes/poolRequest.process")
 const cors = require("cors")
 
 
@@ -12,7 +12,7 @@ const app = express()
 
 
 
-const allowedOrigins = ["http://localhost:3001"];
+const allowedOrigins = ["http://localhost:3000"];
 
 const corsOptions =  {
     origin:allowedOrigins,

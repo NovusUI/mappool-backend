@@ -1,12 +1,19 @@
 const Bull = require("bull")
-const poolRequestProcess = require("../processes/poolRequest.process")
+// const {poolRequestProcess} = require("../processes/poolRequest.process")
 
 // const { setQueues } = require('bull-board')
 // const { BullAdapter } = require('bull-board/bullAdapter')
 // const { BullMQAdapter } = require('bull-board/bullMQAdapter')
 
 // create new queue instance
-const poolRequestQueue = new Bull("pool",{
+const poolRequestQueue = new Bull("poolRequest",{
+    redis:{
+        host: "127.0.0.1",
+        port: "6379"
+    }
+})
+
+const poolProcessingQueue = new Bull("poolProcessing",{
     redis:{
         host: "127.0.0.1",
         port: "6379"
@@ -17,19 +24,20 @@ const poolRequestQueue = new Bull("pool",{
 //     new BullAdapter(emailQueue)
 // })
 
-poolRequestQueue.process("pool",poolRequestProcess)
-poolRequestQueue.process("carpool",poolRequestProcess)
-poolRequestQueue.process("ride",poolRequestProcess)
+// poolRequestQueue.process("pool",poolRequestProcess)
+// poolRequestQueue.process("carpool",poolRequestProcess)
+// poolRequestQueue.process("ride",poolRequestProcess)
 
 
-const poolRequest = async(data)=>{
-   poolRequestQueue.add("pool",data,{
-
-   })
+// const poolRequest = async(data)=>{
+//     console.log("requested")
+//    poolRequestQueue.add("pool",data,{
+//      group: "groupie"
+//    })
 
    
-}
+// }
 
-module.exports = poolRequest
+module.exports =  {poolRequestQueue, poolProcessingQueue}
 
 

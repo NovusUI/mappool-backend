@@ -2,7 +2,7 @@ const admin = require('../../firebase-config');
 
 function authMiddleware(req, res, next) {
   const idToken = req.header('Authorization').split(" ")[1];
-  console.log(idToken)
+
 
   if (!idToken) {
     return res.status(401).json({ message: 'Unauthorized - Missing token' });
