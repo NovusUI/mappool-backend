@@ -58,8 +58,8 @@ const poolProcess = async(job)=>{
                
                 
                 const poolStatus ={
-                    // status: reqInfo.data.status,
-                    // matchedBy: reqInfo.data.matchedBy,
+                    status: "paired",
+                    matchedBy: reqInfo.data.matchedBy,
                     id: poolRef.id
                 }
                 
@@ -98,9 +98,10 @@ const poolProcess = async(job)=>{
 
         const requestDocRef = db.collection("request").doc(job.data.requestId)
         await requestDocRef.update({
-            status:"paired"
+            status:"paired",
+            matchedBy: job.data.matchedBy,
         })
-        job.remove()
+        // job.remove()
         //save to userevents 
     })
        
@@ -182,12 +183,12 @@ const matchingAlgorithm = (batch)=>{
             matched.push(compared.data);
 
             if( matchedJobs.length == 0){
-                // matchedJobs.push({...comparer, data: {...comparer.data, matchedBy, status:"matched"} })
-                matchedJobs.push(comparer)
+                 matchedJobs.push({...comparer, data: {...comparer.data, matchedBy} })
+                // matchedJobs.push(comparer)
                 
             }
-            // matchedJobs.push({...compared, data: {...compared.data, matchedBy, status:"matched" }})
-                matchedJobs.push(compared)
+               matchedJobs.push({...compared, data: {...compared.data, matchedBy }})
+                // matchedJobs.push(compared)
             
             batchCopy.splice(i, 1); // Remove the matched job from the batch
             i--; // Adjust the index to account for the removal
@@ -232,14 +233,20 @@ function checkIfMatch(comparer, compared) {
 
     const twoThings = [true,false]
     const comparedData = ["location","convPUL"]
-   const index =  Math.round(Math.random())
-   const indexx = Math.round(Math.random())
+    let index =  1
+   
 
+   const comparerLoc = comparer.data.location
+   const comparedLoc = compared.data.location
 
+   const regexPattern = /Magodo/i;
+   if (regexPattern.test(comparerLoc) && regexPattern.test(comparedLoc)) {
+    index = 0
+  }
     
     return {
         isMatch:twoThings[index],
-        matchedBy: comparedData[indexx]
+        matchedBy: "location"
     }
 }
   
