@@ -8,21 +8,21 @@ const Bull = require("bull")
 // create new queue instance
 const poolRequestQueue = new Bull("poolRequest",{
     redis:{
-        host: "127.0.0.1",
+        host: "redis://red-ckktb4qv7m0s73cjphbg",
         port: "6379"
     }
 })
 
 const poolProcessingQueue = new Bull("poolProcessing",{
     redis:{
-        host: "127.0.0.1",
+        host: "redis://red-ckktb4qv7m0s73cjphbg",
         port: "6379"
     }
 })
 
 const acceptedJobsQueue =new Bull("acceptedJobs",{
     redis:{
-        host: "127.0.0.1",
+        host: "redis://red-ckktb4qv7m0s73cjphbg",
         port: "6379"
     }
 })
