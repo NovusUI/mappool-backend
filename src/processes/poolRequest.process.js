@@ -15,41 +15,42 @@ const poolRequestBatch = async (job)=>{
 
 const poolProcess = async(job)=>{
    
-    //  console.log(job.data.group)
+
 
     try {
  
    
-        const jobsInGroup = await poolRequestQueue.getJobs(["completed"]); 
-        
+        const jobsInGrp = await poolRequestQueue.getJobs(["completed"]); 
+        const poolProcessJobs = await poolProcessingQueue.getFailed()
+        console.log(jobsInGrp.length)
         
         // jobsInGroup.forEach(async(job)=>{
         //     job.remove()
         // })
     
-    if (jobsInGroup.length >= BATCH_SIZE) {
-      
-    
+    if (jobsInGrp.length >= BATCH_SIZE) {
+      console.log(jobsInGrp.length)
+     let jobsInGroup = [...jobsInGrp]
+
+     jobsInGrp.forEach(async(job)=>{
+        console.log(job.id)
+        job.remove()
+    })
 
        const {newPools,rejectedJobs, acceptedJobs} = matchingAlgorithm(jobsInGroup)
      
-    console.log(rejectedJobs.length)
+     console.log(newPools.length,rejectedJobs.length, acceptedJobs.length)
       
-
+    const db = admin.firestore()
     // save pool
-    //  newPools.forEach(async(pool) => {
-        const pool = newPools[0]
-
-        if(pool){
-        try {
-            const db = admin.firestore()
-
+      newPools.forEach(async(pool) => {
+  
             const poolRef = db.collection("pool").doc()
             // save pool to poolDB
-            await poolRef.set(pool)
+             await poolRef.set(pool)
             
            //take the passangerIds array and save poolId and status and matchedBy in userEvents for each user
-
+           console.log(poolRef.id)
             // pool.passangerIds.forEach(async(id)=>{
                const id = pool.passengerIds[0]
              
@@ -69,13 +70,10 @@ const poolProcess = async(job)=>{
                 await userEventDocRef.set({poolStatus,poolId:poolStatus.id},{ merge: true })
                 
             // })
-            
-        } catch (error) {
-            console.log(error)
-        }
-    }
+   
+    
         
-    //  });
+      });
     
     const rejectedData = []
      //delete rejected list 
@@ -94,16 +92,21 @@ const poolProcess = async(job)=>{
     //send request to new worker
 
     acceptedJobs.forEach(async(job,index)=>{
-        
-  
-     
-        acceptedJobsQueue.add(job.data)
+
+        // acceptedJobsQueue.add(job.data)
+        // console.log(job.data.requestId)
+
+        const requestDocRef = db.collection("request").doc(job.data.requestId)
+        await requestDocRef.update({
+            status:"paired"
+        })
         job.remove()
         //save to userevents 
     })
        
 
     }
+
     } catch (error) {
         console.log(error)
     }  
