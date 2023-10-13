@@ -20,6 +20,13 @@ const poolProcessingQueue = new Bull("poolProcessing",{
     }
 })
 
+const acceptedJobsQueue =new Bull("acceptedJobs",{
+    redis:{
+        host: "127.0.0.1",
+        port: "6379"
+    }
+})
+
 // setQueues({
 //     new BullAdapter(emailQueue)
 // })
@@ -38,6 +45,6 @@ const poolProcessingQueue = new Bull("poolProcessing",{
    
 // }
 
-module.exports =  {poolRequestQueue, poolProcessingQueue}
+module.exports =  {poolRequestQueue, poolProcessingQueue, acceptedJobsQueue}
 
 
