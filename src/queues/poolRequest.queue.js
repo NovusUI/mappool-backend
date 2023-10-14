@@ -15,6 +15,16 @@ const client = new Redis({
     port: process.env.RENDER_REDIS_PORT
 })
 
+client.set("key", "ioredis")
+
+client.get("key", function(err, result) {
+    if (err) {
+        console.log(err);
+    } else {
+        console.log(result)
+    }
+})
+
 
 const poolRequestQueue = new Bull("poolRequest", client)
 
