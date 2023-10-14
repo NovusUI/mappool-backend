@@ -29,7 +29,9 @@ const acceptedJobsQueue =new Bull("acceptedJobs",{
         host: "redis://red-ckktb4qv7m0s73cjphbg",
         port: "6379",
         tls: true, 
-        enableTLSForSentinelMode: false
+        enableTLSForSentinelMode: false,
+        maxRetriesPerRequest: null, 
+        enableReadyCheck: false
     }
 })
 
