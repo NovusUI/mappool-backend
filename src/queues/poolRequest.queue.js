@@ -8,10 +8,7 @@ const Redis = require("ioredis")
 
 // create new queue instance
 
-const client = new Redis({
-    host:process.env.RENDER_REDIS_HOST_NAME,
-    port: process.env.RENDER_REDIS_PORT
-});
+const client = new Redis(process.env.RENDER_REDIS_URL);
 
 
 
