@@ -1,4 +1,5 @@
 const Bull = require("bull")
+const Redis = require("ioredis")
 // const {poolRequestProcess} = require("../processes/poolRequest.process")
 
 // const { setQueues } = require('bull-board')
@@ -6,34 +7,20 @@ const Bull = require("bull")
 // const { BullMQAdapter } = require('bull-board/bullMQAdapter')
 
 // create new queue instance
-const poolRequestQueue = new Bull("poolRequest",{
-    redis:{
-        host: "redis://red-ckktb4qv7m0s73cjphbg",
-        port: "6379",
-        tls: true, 
-        enableTLSForSentinelMode: false
-    }
-})
 
-const poolProcessingQueue = new Bull("poolProcessing",{
-    redis:{
-        host: "redis://red-ckktb4qv7m0s73cjphbg",
-        port: "6379",
-        tls: true, 
-        enableTLSForSentinelMode: false
-    }
-})
+const client = new Redis({
 
-const acceptedJobsQueue =new Bull("acceptedJobs",{
-    redis:{
-        host: "redis://red-ckktb4qv7m0s73cjphbg",
-        port: "6379",
-        tls: true, 
-        enableTLSForSentinelMode: false,
-        maxRetriesPerRequest: null, 
-        enableReadyCheck: false
-    }
-})
+    host: 'redis://red-ckktb4qv7m0s73cjphbg',
+    port: 6379, // Default Redis port
+});
+
+
+
+const poolRequestQueue = new Bull("poolRequest", client)
+
+const poolProcessingQueue = new Bull("poolProcessing", client)
+
+const acceptedJobsQueue =new Bull("acceptedJobs",client)
 
 // setQueues({
 //     new BullAdapter(emailQueue)

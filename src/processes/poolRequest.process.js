@@ -241,10 +241,11 @@ function checkIfMatch(comparer, compared) {
     const comparedData = ["location","convPUL"]
     let index =  1
    
+   
+   const comparerLoc = comparer.data.poolerLoc
+   const comparedLoc = compared.data.poolerLoc
 
-   const comparerLoc = comparer.data.location
-   const comparedLoc = compared.data.location
-
+  
    const regexPattern = /Magodo/i;
    if (regexPattern.test(comparerLoc) && regexPattern.test(comparedLoc)) {
     index = 0
