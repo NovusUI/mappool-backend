@@ -138,12 +138,13 @@ poolRequestQueue.addListener("completed",async(job)=>{
 const poolRequest = async(data)=>{
     
     console.log("pool request")
-    // data.group = "groupie"
+   
     try {
         await poolRequestQueue.add(data,{
             //  state: "failed",
            })
     } catch (error) {
+        console.log("from here")
         console.error(error)
     }
   
