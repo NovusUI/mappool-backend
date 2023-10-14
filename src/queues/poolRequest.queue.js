@@ -25,6 +25,30 @@ client.get("key", function(err, result) {
     }
 })
 
+client.on('ready', () => {
+    console.log('client ready')
+  })
+  
+  client.on('connect', () => {
+    console.log('client connect')
+  })
+  
+  client.on('close', () => {
+    console.log('client close')
+  })
+  
+  client.on('end', error => {
+    console.log('client end', error)
+  })
+  
+  client.on('reconnecting', error => {
+    console.log('client reconnecting', error)
+  })
+  
+  client.on('error', error => {
+    console.log('client error', error.message)
+  })
+
 
 const poolRequestQueue = new Bull("poolRequest", client)
 
