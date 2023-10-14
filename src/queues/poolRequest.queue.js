@@ -50,11 +50,19 @@ client.on('ready', () => {
   })
 
 
-const poolRequestQueue = new Bull("poolRequest", client)
+const poolRequestQueue = new Bull("poolRequest", client, {
+    redis: { maxRetriesPerRequest: null, enableReadyCheck: false },
+})
 
-const poolProcessingQueue = new Bull("poolProcessing", client)
 
-const acceptedJobsQueue =new Bull("acceptedJobs",client)
+
+const poolProcessingQueue = new Bull("poolProcessing", client, {
+    redis: { maxRetriesPerRequest: null, enableReadyCheck: false },
+})
+
+const acceptedJobsQueue =new Bull("acceptedJobs",client, {
+    redis: { maxRetriesPerRequest: null, enableReadyCheck: false },
+})
 
 // setQueues({
 //     new BullAdapter(emailQueue)
