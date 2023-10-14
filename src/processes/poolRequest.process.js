@@ -144,7 +144,7 @@ const poolRequest = async(data)=>{
             //  state: "failed",
            })
     } catch (error) {
-        console.log("from here")
+       
         console.error(error)
     }
   
