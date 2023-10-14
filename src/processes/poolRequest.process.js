@@ -8,7 +8,7 @@ const BATCH_SIZE = 10;
 
 const poolRequestBatch = async (job)=>{
 
-//   console.log("success") 
+   console.log("success") 
 }
 
 
