@@ -9,21 +9,27 @@ const Bull = require("bull")
 const poolRequestQueue = new Bull("poolRequest",{
     redis:{
         host: "redis://red-ckktb4qv7m0s73cjphbg",
-        port: "6379"
+        port: "6379",
+        tls: true, 
+        enableTLSForSentinelMode: false
     }
 })
 
 const poolProcessingQueue = new Bull("poolProcessing",{
     redis:{
         host: "redis://red-ckktb4qv7m0s73cjphbg",
-        port: "6379"
+        port: "6379",
+        tls: true, 
+        enableTLSForSentinelMode: false
     }
 })
 
 const acceptedJobsQueue =new Bull("acceptedJobs",{
     redis:{
         host: "redis://red-ckktb4qv7m0s73cjphbg",
-        port: "6379"
+        port: "6379",
+        tls: true, 
+        enableTLSForSentinelMode: false
     }
 })
 
