@@ -3,6 +3,7 @@ const authMiddleware = require("./middleware/authentication")
 const {poolRequest} = require("./processes/poolRequest.process")
 const cors = require("cors")
 const { poolProcess } = require("./matchingAlgorithm")
+const { carpoolProcess } = require("./carpoolMatchingAlgorithm")
 
 
 require("dotenv").config()
@@ -40,7 +41,12 @@ app.post("/api/v1/manual-process-pool-request",async(req,res)=>{
      res.status(200).send({msg:"success"})
  })
 
-app.get("/api/v1/process-ride-request",(req,res)=>{
+
+
+app.post("/api/v1/manual-process-ride-request",async(req,res)=>{
+
+    const requestData = req.body
+    await carpoolProcess(requestData.payload)
     res.send("success")
 })
 

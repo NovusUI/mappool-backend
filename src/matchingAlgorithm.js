@@ -74,6 +74,7 @@ const poolProcess = async(requests)=>{
 }
 
 
+
 const matchingAlgorithm = (batch)=>{
 
     
@@ -164,7 +165,7 @@ function checkIfMatch(comparer, compared) {
   
    const regexPattern = /Magodo/i;
 
-   if (regexPattern.test(comparerLoc) && regexPattern.test(comparedLoc)) {
+   if ( comparer.requesterId !== compared.requesterId && regexPattern.test(comparerLoc) && regexPattern.test(comparedLoc)) {
         index = 0
    }
     
@@ -179,20 +180,29 @@ function createPoolData(matchedJobs) {
     // Formulate data for the new pool
     // Push passenger IDs to the new pool
 
+     
+
+    const poolType = matchedJobs[0].poolType == "carpoolOffer" ? "carpool" : "pool"
+
     const poolData = {
         ...matchedJobs[0],
+        poolType,
         passengerIds:[]
     }
+
+   
     
     matchedJobs.forEach((job) => {
         poolData.passengerIds.push(job.requesterId)
     });
 
-
+  
 
     return poolData;
 }
 
 module.exports = {
-    poolProcess
+    poolProcess,
+    checkIfMatch,
+    createPoolData
 }
