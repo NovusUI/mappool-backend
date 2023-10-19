@@ -11,8 +11,10 @@
   "author": "novusui",
   "license": "ISC",
   "dependencies": {
+    "@bull-board/express": "^5.9.1",
     "bull": "^4.11.3",
     "bull-board": "^2.1.3",
+    "bullmq": "^4.12.4",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",

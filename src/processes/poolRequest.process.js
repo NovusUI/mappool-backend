@@ -140,9 +140,7 @@ const poolRequest = async(data)=>{
     console.log("pool request")
    
     try {
-        await poolRequestQueue.add(data,{
-            //  state: "failed",
-           })
+        await poolRequestQueue.add(data)
     } catch (error) {
        
         console.error(error)
@@ -248,9 +246,10 @@ function checkIfMatch(comparer, compared) {
 
   
    const regexPattern = /Magodo/i;
+
    if (regexPattern.test(comparerLoc) && regexPattern.test(comparedLoc)) {
-    index = 0
-  }
+        index = 0
+   }
     
     return {
         isMatch:twoThings[index],
